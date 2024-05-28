@@ -24,6 +24,12 @@ namespace QuizCreator.Model
                 Quizes.Add(quiz);
         }
 
+        public void addQuiz(Quiz quiz)
+        {
+            Quizes.Add(quiz);
+            QuizRepository.AddNewQuiz(quiz);
+        }
+
         public void selectQuiz(Quiz quiz)
         {
             _currentQuiz = (int)quiz.Id;

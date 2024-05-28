@@ -30,6 +30,23 @@ namespace QuizCreator.ViewModel
             set { quizes = value; }
         }
 
+        private ICommand? _createQuiz = null;
+
+        public ICommand CreateQuiz
+        {
+            get
+            {
+                if (_createQuiz == null)
+                    _createQuiz = new RelayCommand(
+                        arg => {
+                            //zmiana okna
+                        },
+                        arg => true
+                        );
+                return _createQuiz;
+            }
+        }
+
         private ICommand? _deleteQuiz = null;
         public ICommand DeleteQuiz
         {

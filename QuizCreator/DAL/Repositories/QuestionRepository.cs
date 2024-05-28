@@ -70,6 +70,22 @@ namespace QuizCreator.DAL.Repositories
             return status;
         }
 
+        public static bool UpdateQuestion(Question question)
+        {
+            bool status = false;
+            using (SqliteConnection connection = DBConnection.Instance.Connection)
+            {
+                SqliteCommand command = new SqliteCommand(
+                    $"UPDATE `quiestion` SET `question`=`{question.QuestionContent}`, `anwser_1`=`{question.Anwser1}`, `anwser_2`=`{question.Anwser2}`, `anwser_3`=`{question.Anwser3}`, `anwser_4`=`{question.Anwser4}`,`right_anwser`={question.Right_anwser}", connection);
+                connection.Open();
+                var n = command.ExecuteNonQuery();
+                if ((int)n > 0)
+                    status = true;
+                connection.Close();
+            }
+            return status;
+        }
+
         public static bool DeleteQuestion(Question question)
         {
             bool status = false;

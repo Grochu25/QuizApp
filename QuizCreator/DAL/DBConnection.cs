@@ -29,7 +29,7 @@ namespace QuizCreator.DAL
 
         public DBConnection()
         {
-            _connection = new SqliteConnection($"Data Source=database.db");
+            _connection = new SqliteConnection($"Data Source=DAL/database.db");
         }
     }
 }

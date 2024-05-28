@@ -75,6 +75,21 @@ namespace QuizCreator.DAL.Repositories
             return state;
         }
 
+        public static bool UpdateQuiz(Quiz quiz)
+        {
+            bool status = false;
+            using (SqliteConnection connection = DBConnection.Instance.Connection)
+            {
+                SqliteCommand command = new SqliteCommand($"UPDATE `quiz` SET name=`{quiz.Name}` WHERE id={quiz.Id}", connection);
+                connection.Open();
+                var n = command.ExecuteNonQuery();
+                if ((int)n > 0)
+                    status = true;
+                connection.Close();
+            }
+            return status;
+        }
+
         public static bool DeleteQuestion(Quiz quiz)
         {
             bool status = false;
