@@ -18,6 +18,7 @@ namespace QuizCreator.DAL.Repositories
         private const string ALL_QUIZES = "SELECT * FROM quiz";
         private const string ADD_QUIZ = "INSERT INTO `quiz`(`name`) VALUES ";
         private const string DELETE_QUIZ = "DELETE FROM `quiz` WHERE id = ";
+        private const string GET_QUIZ_WITH_ID = "SELECT * FROM `quiz` WHERE id = ";
 
         #endregion
 
@@ -27,7 +28,6 @@ namespace QuizCreator.DAL.Repositories
         {
             List<Quiz> quizzes = new List<Quiz>();
 
-            //TODO: Zmienić to na instancję singletonu
             using (var connection = DBConnection.Instance.Connection)
             {
                 SqliteCommand command = new SqliteCommand(ALL_QUIZES, connection);
@@ -40,6 +40,21 @@ namespace QuizCreator.DAL.Repositories
                 connection.Close();
             }
             return quizzes;
+        }
+
+        public static Quiz GetQuestionWithId(int id)
+        {
+            Quiz quiz;
+            using (var connection = DBConnection.Instance.Connection)
+            {
+                SqliteCommand command = new SqliteCommand($"{GET_QUIZ_WITH_ID} {id};", connection);
+                connection.Open();
+                var reader = command.ExecuteReader();
+                reader.Read();
+                quiz = new Quiz(reader);
+                connection.Close();
+            }
+            return quiz;
         }
 
         public static bool AddNewQuiz(Quiz quiz)
@@ -74,7 +89,6 @@ namespace QuizCreator.DAL.Repositories
             }
             return status;
         }
-
         #endregion
     }
 }

@@ -16,6 +16,7 @@ namespace QuizCreator.DAL.Repositories
         private const string ALL_QUESTIONS = "SELECT * FROM questions WHERE quiz_id = ";
         private const string ADD_QUESTION = "INSERT INTO `questions` (`quiz_id`,`question`,`anwser_1`,`anwser_2`,`anwser_3`,`anwser_4`,`right_anwser`) VALUES ";
         private const string DELETE_QUESTION = "DELETE FROM `question` WHERE id = ";
+        private const string GET_QUESTION_WITH_ID = "SELECT * FROM `question` WHERE id = ";
         #endregion
 
         #region CRUD methods
@@ -34,6 +35,21 @@ namespace QuizCreator.DAL.Repositories
                 connection.Close();
             }
             return questions;
+        }
+
+        public static Question GetQuestionWithId(int id)
+        {
+            Question quiestion;
+            using (var connection = DBConnection.Instance.Connection)
+            {
+                SqliteCommand command = new SqliteCommand($"{GET_QUESTION_WITH_ID} {id};", connection);
+                connection.Open();
+                var reader = command.ExecuteReader();
+                reader.Read();
+                quiestion = new Question(reader);
+                connection.Close();
+            }
+            return quiestion;
         }
 
         public static bool AddNewQuestion(Question question, int quizNumber)

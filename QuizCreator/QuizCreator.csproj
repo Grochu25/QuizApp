@@ -29,9 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="DAL\database.db">
+    <Content Include="DAL\database.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
