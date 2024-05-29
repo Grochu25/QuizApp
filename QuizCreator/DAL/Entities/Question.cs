@@ -50,7 +50,7 @@ namespace QuizCreator.DAL.Entities
 
         public string ToInsert()
         {
-            return $"`{QuestionContent}`,`{Anwser1}`,`{Anwser2}`,`{Anwser3}`,`{Anwser4}`,{Right_anwser}";
+            return $"\"{QuestionContent}\",\"{Anwser1}\",\"{Anwser2}\",\"{Anwser3}\",\"{Anwser4}\",{Right_anwser}";
         }
     }
 }

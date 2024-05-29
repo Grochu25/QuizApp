@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace QuizCreator.ViewModel.Base_Classes
+namespace QuizCreator.ViewModels.BaseViewModelClasses
 {
     class RelayCommand : ICommand
     {

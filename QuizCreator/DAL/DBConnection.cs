@@ -27,9 +27,9 @@ namespace QuizCreator.DAL
         private SqliteConnection _connection;
         public SqliteConnection Connection => _connection;
 
-        public DBConnection()
+        private DBConnection()
         {
-            _connection = new SqliteConnection($"Data Source=DAL/database.db");
+            _connection = new SqliteConnection(@"Data Source=C:\Users\grzgr\source\repos\QuizCreator\QuizCreator\DAL\database.db");
         }
     }
 }

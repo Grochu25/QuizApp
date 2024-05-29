@@ -10,13 +10,14 @@ namespace QuizCreator.DAL.Repositories
     using Microsoft.Data.Sqlite;
     using MySql.Data.MySqlClient;
     using System.CodeDom;
+    using System.Windows;
 
     static class QuizRepository
     {
         #region Queries
 
         private const string ALL_QUIZES = "SELECT * FROM quiz";
-        private const string ADD_QUIZ = "INSERT INTO `quiz`(`name`) VALUES ";
+        private const string ADD_QUIZ = "INSERT INTO `quiz` (`name`) VALUES ";
         private const string DELETE_QUIZ = "DELETE FROM `quiz` WHERE id = ";
         private const string GET_QUIZ_WITH_ID = "SELECT * FROM `quiz` WHERE id = ";
 
@@ -62,7 +63,7 @@ namespace QuizCreator.DAL.Repositories
             bool state = false;
             using (var connection = DBConnection.Instance.Connection)
             {
-                SqliteCommand command = new SqliteCommand($"{ADD_QUIZ} ({quiz.Name});", connection);
+                SqliteCommand command = new SqliteCommand($"{ADD_QUIZ} (\"{quiz.Name}\");", connection);
                 connection.Open();
                 var n = command.ExecuteScalar();
                 if (n != null)
@@ -80,7 +81,7 @@ namespace QuizCreator.DAL.Repositories
             bool status = false;
             using (SqliteConnection connection = DBConnection.Instance.Connection)
             {
-                SqliteCommand command = new SqliteCommand($"UPDATE `quiz` SET name=`{quiz.Name}` WHERE id={quiz.Id}", connection);
+                SqliteCommand command = new SqliteCommand($"UPDATE `quiz` SET name=\"{quiz.Name}\" WHERE id={quiz.Id}", connection);
                 connection.Open();
                 var n = command.ExecuteNonQuery();
                 if ((int)n > 0)
@@ -90,12 +91,12 @@ namespace QuizCreator.DAL.Repositories
             return status;
         }
 
-        public static bool DeleteQuestion(Quiz quiz)
+        public static bool DeleteQuiz(Quiz quiz)
         {
             bool status = false;
             using (SqliteConnection connection = DBConnection.Instance.Connection)
             {
-                SqliteCommand command = new SqliteCommand($"{DELETE_QUIZ} {quiz.Id})", connection);
+                SqliteCommand command = new SqliteCommand($"{DELETE_QUIZ} {quiz.Id}", connection);
                 connection.Open();
                 var n = command.ExecuteNonQuery();
                 if ((int)n > 0)

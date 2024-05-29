@@ -13,27 +13,75 @@ namespace QuizCreator.Model
 
     class Model
     {
-        private int _currentQuiz = -1;
-        public ObservableCollection<Quiz> Quizes { get; set; } = new ObservableCollection<Quiz>();
-        public List<Question>? Questions { get;  set; }
+        private static sbyte _currentQuizId = -1;
+        public static sbyte CurrentQuizId {
+            get
+            {
+                return _currentQuizId;
+            }
+
+            set
+            {
+                _currentQuizId = value;
+            } 
+        }
+
+        public static Quiz CurrentQuiz()
+        {
+            return QuizRepository.GetQuestionWithId(_currentQuizId);
+        }
+
+        private ObservableCollection<Quiz> _quiz = new ObservableCollection<Quiz>();
+        public ObservableCollection<Quiz> Quizes
+        {
+            get
+            {
+                if(_quiz.Count == 0)
+                {
+                    var quizes = QuizRepository.GetAllQuizzes();
+                    foreach (var quiz in quizes)
+                        _quiz.Add(quiz);
+                }
+                return _quiz;
+            }
+        }
+
+        private ObservableCollection<Question> _questions = new ObservableCollection<Question>();
+        public ObservableCollection<Question> Questions 
+        { 
+            get
+            {
+                if(_questions == null && _currentQuizId >= 0)
+                {
+                    var questions = QuestionRepository.GetAllQuestionsFromQuiz(_currentQuizId);
+                    foreach (var question in questions)
+                        _questions.Add(question);
+                }
+                return _questions;
+            }
+        }
 
         public Model()
         {
-            var quizes = QuizRepository.GetAllQuizzes();
-            foreach (var quiz in quizes)
-                Quizes.Add(quiz);
+            
         }
 
-        public void addQuiz(Quiz quiz)
+        public void AddQuizWithName(string name)
+        {
+            Quiz quiz = new Quiz(null, name);
+            AddQuiz(quiz);
+        }
+        public void AddQuiz(Quiz quiz)
         {
             Quizes.Add(quiz);
             QuizRepository.AddNewQuiz(quiz);
         }
 
-        public void selectQuiz(Quiz quiz)
+        public void RemoveQuiz(Quiz quiz) 
         {
-            _currentQuiz = (int)quiz.Id;
-            Questions = QuestionRepository.GetAllQuestionsFromQuiz(_currentQuiz);
+            Quizes.Remove(quiz);
+            QuizRepository.DeleteQuiz(quiz);
         }
+
     }
 }
