@@ -33,6 +33,8 @@ namespace QuizCreator.ViewModels
             set { _quizes = value; }
         }
 
+        public string CreatedQuizName { get; set; } = "";
+
         private ICommand? _createQuiz = null;
         public ICommand CreateQuiz
         {
@@ -40,19 +42,15 @@ namespace QuizCreator.ViewModels
             {
                 if (_createQuiz == null)
                     _createQuiz = new RelayCommand(
-                        arg => {
-                            //TODO: jeden pomysł to to co wysłał Brociek
-                            //Drugi pomysł to code behind
-                            var quizCreationDialog = new QuizCreationDialog();
-                            quizCreationDialog?.ShowDialog();
-
-                            if(QuizCreationDialogViewModel.DialogResult)
-                                _model.AddQuizWithName(QuizCreationDialogViewModel.NewQuizName);
+                        arg =>
+                        {
+                            _model.AddQuizWithName(CreatedQuizName);
                         },
-                        arg => true
+                        arg => CreatedQuizName.Length > 0
                         );
                 return _createQuiz;
             }
+
         }
 
         private ICommand? _deleteQuiz = null;
@@ -95,7 +93,6 @@ namespace QuizCreator.ViewModels
                     _editQuiz = new RelayCommand(
                         arg => {
                             Model.CurrentQuizId = (sbyte)arg;
-
                             _viewModelChanger.CurrentViewModel = new QuizEditViewModel(_viewModelChanger);
                         },
                         arg => true

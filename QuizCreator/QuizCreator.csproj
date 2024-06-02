@@ -10,6 +10,8 @@
 
   <ItemGroup>
     <None Remove="DAL\database.db" />
+    <None Remove="img\Edit.png" />
+    <None Remove="img\Remove.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,6 +24,15 @@
   <ItemGroup>
     <Content Include="DAL\database.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="img\Edit.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\Remove.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 

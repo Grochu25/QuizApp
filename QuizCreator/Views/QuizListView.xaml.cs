@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuizCreator.ViewModels.BaseViewModelClasses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,15 @@ namespace QuizCreator.Views
         public QuizListView()
         {
             InitializeComponent();
+        }
+
+        public void CreateQuiz(object sender, RoutedEventArgs args)
+        {
+            var quizCreationDialog = new QuizCreationDialog()
+            {
+                DataContext = this.DataContext
+            };
+            quizCreationDialog.ShowDialog();
         }
     }
 }

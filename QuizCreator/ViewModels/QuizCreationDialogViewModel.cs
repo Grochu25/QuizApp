@@ -29,7 +29,9 @@ namespace QuizCreator.ViewModels
                         arg => { DialogResult = true; },
                         arg => NewQuizName.Length > 0
                         );
-            return _approve; } }
+              return _approve; 
+            } 
+        }
 
         ICommand? _cancel = null;
         public ICommand Cancel

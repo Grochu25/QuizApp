@@ -21,7 +21,7 @@
         </Style>
     </Window.Resources>
 
-    <Grid DataContext="{StaticResource QCDVM}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="50"/>
@@ -29,20 +29,20 @@
 
         <StackPanel VerticalAlignment="Center" Margin="15 0 15 0">
             <TextBlock Margin="0 0 0 5">Podaj nazwę nowego quizu:</TextBlock>
-            <TextBox Text="{Binding NewQuizName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <TextBox Text="{Binding CreatedQuizName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             </TextBox>
         </StackPanel>
 
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Style="{StaticResource buttonStyle}" IsEnabled="{Binding CanApply}" Command="{Binding Approve}">OK
+            <Button Style="{StaticResource buttonStyle}" Command="{Binding CreateQuiz}">OK
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
                         <i:CallMethodAction TargetObject="{Binding ElementName=widnow}" MethodName="Close"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>
-            <Button Style="{StaticResource buttonStyle}" Command="{Binding Cancel}">Cancel
+            <Button Style="{StaticResource buttonStyle}">Cancel
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
                         <i:CallMethodAction TargetObject="{Binding ElementName=widnow}" MethodName="Close"/>

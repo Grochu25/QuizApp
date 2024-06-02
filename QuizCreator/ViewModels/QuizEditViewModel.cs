@@ -10,6 +10,7 @@ namespace QuizCreator.ViewModels
     using QuizCreator.DAL.Entities;
     using QuizCreator.ViewModels.Navigation;
     using System.Collections.ObjectModel;
+    using System.Windows;
 
     class QuizEditViewModel : BaseViewModelClasses.ViewModel
     {
@@ -18,7 +19,7 @@ namespace QuizCreator.ViewModels
         private ViewModelChanger _viewModelChanger;
 
         private ObservableCollection<Question> _questions = new ObservableCollection<Question>();
-        public ObservableCollection<Question> Quiestions
+        public ObservableCollection<Question> Questions
         {
             get { return _questions; }
             set { _questions = value; }

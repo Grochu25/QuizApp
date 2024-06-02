@@ -3,10 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:vm="clr-namespace:QuizCreator.ViewModels"
-             xmlns:local="clr-namespace:QuizCreator.Views"
-             mc:Ignorable="d"
-             Height="450" Width="800">
+             mc:Ignorable="d">
 
 
     <Grid>
@@ -19,6 +16,28 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Column="1" Text="{Binding QuizName}"></TextBlock>
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" FontSize="18pt" Text="Nazwa Quizu: "></TextBlock>
+            <TextBox Grid.Column="1" Margin="0 0 15 10" FontSize="18pt" Text="{Binding QuizName}"/>
+        </Grid>
+
+        <ScrollViewer Grid.Column="0" Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding Questions}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Id}"/>
+                            <TextBlock Text="{Binding QuestionContent}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        
     </Grid>
 </UserControl>

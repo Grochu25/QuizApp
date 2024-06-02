@@ -13,8 +13,8 @@ namespace QuizCreator.DAL.Repositories
     static class QuestionRepository
     {
         #region Queries
-        private const string ALL_QUESTIONS = "SELECT * FROM questions WHERE quiz_id = ";
-        private const string ADD_QUESTION = "INSERT INTO `questions` (`quiz_id`,`question`,`anwser_1`,`anwser_2`,`anwser_3`,`anwser_4`,`right_anwser`) VALUES ";
+        private const string ALL_QUESTIONS = "SELECT * FROM `question` WHERE quiz_id = ";
+        private const string ADD_QUESTION = "INSERT INTO `question` (`quiz_id`,`question`,`anwser_1`,`anwser_2`,`anwser_3`,`anwser_4`,`right_anwser`) VALUES ";
         private const string DELETE_QUESTION = "DELETE FROM `question` WHERE id = ";
         private const string GET_QUESTION_WITH_ID = "SELECT * FROM `question` WHERE id = ";
         #endregion

@@ -28,7 +28,7 @@ namespace QuizCreator.Model
 
         public static Quiz CurrentQuiz()
         {
-            return QuizRepository.GetQuestionWithId(_currentQuizId);
+            return QuizRepository.GetQuizWithId(_currentQuizId);
         }
 
         private ObservableCollection<Quiz> _quiz = new ObservableCollection<Quiz>();
@@ -51,7 +51,7 @@ namespace QuizCreator.Model
         { 
             get
             {
-                if(_questions == null && _currentQuizId >= 0)
+                if(_questions.Count == 0 && _currentQuizId >= 0)
                 {
                     var questions = QuestionRepository.GetAllQuestionsFromQuiz(_currentQuizId);
                     foreach (var question in questions)
@@ -73,8 +73,9 @@ namespace QuizCreator.Model
         }
         public void AddQuiz(Quiz quiz)
         {
-            Quizes.Add(quiz);
-            QuizRepository.AddNewQuiz(quiz);
+            QuizRepository.AddNewQuizAndGetId(quiz);
+            if(quiz.Id >= 0)
+                Quizes.Add(quiz);
         }
 
         public void RemoveQuiz(Quiz quiz) 

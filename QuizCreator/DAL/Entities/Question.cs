@@ -26,10 +26,10 @@ namespace QuizCreator.DAL.Entities
             Id = sbyte.Parse(reader["id"].ToString());
             QuizId = sbyte.Parse(reader["quiz_id"].ToString());
             QuestionContent = reader["question"].ToString();
-            Anwser1 = reader["anwser1"].ToString();
-            Anwser2 = reader["anwser2"].ToString();
-            Anwser3 = reader["anwser3"].ToString();
-            Anwser4 = reader["anwser4"].ToString();
+            Anwser1 = reader["anwser_1"].ToString();
+            Anwser2 = reader["anwser_2"].ToString();
+            Anwser3 = reader["anwser_3"].ToString();
+            Anwser4 = reader["anwser_4"].ToString();
             Right_anwser = sbyte.Parse(reader["right_anwser"].ToString());
         }
 

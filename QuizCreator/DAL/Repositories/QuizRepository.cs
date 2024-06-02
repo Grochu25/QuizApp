@@ -43,7 +43,7 @@ namespace QuizCreator.DAL.Repositories
             return quizzes;
         }
 
-        public static Quiz GetQuestionWithId(int id)
+        public static Quiz GetQuizWithId(int id)
         {
             Quiz quiz;
             using (var connection = DBConnection.Instance.Connection)
@@ -58,22 +58,25 @@ namespace QuizCreator.DAL.Repositories
             return quiz;
         }
 
-        public static bool AddNewQuiz(Quiz quiz)
+        public static sbyte? AddNewQuizAndGetId(Quiz quiz)
         {
-            bool state = false;
             using (var connection = DBConnection.Instance.Connection)
             {
-                SqliteCommand command = new SqliteCommand($"{ADD_QUIZ} (\"{quiz.Name}\");", connection);
+                SqliteCommand insertCommand = new SqliteCommand($"{ADD_QUIZ} (\"{quiz.Name}\");", connection);
                 connection.Open();
-                var n = command.ExecuteScalar();
-                if (n != null)
+                insertCommand.ExecuteScalar();
+
+                SqliteCommand checkLastIndexCommand = new SqliteCommand("select last_insert_rowid()", connection);
+                var id = checkLastIndexCommand.ExecuteScalar();
+                
+                if (id != null)
                 {
-                    state = true;
-                    quiz.Id = sbyte.Parse(n.ToString());
+                    quiz.Id = sbyte.Parse(id.ToString());
                 }
                 connection.Close();
             }
-            return state;
+
+            return quiz.Id;
         }
 
         public static bool UpdateQuiz(Quiz quiz)
