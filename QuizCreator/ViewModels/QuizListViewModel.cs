@@ -45,6 +45,7 @@ namespace QuizCreator.ViewModels
                         arg =>
                         {
                             _model.AddQuizWithName(CreatedQuizName);
+                            CreatedQuizName = "";
                         },
                         arg => CreatedQuizName.Length > 0
                         );

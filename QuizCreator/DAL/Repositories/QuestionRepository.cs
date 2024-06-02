@@ -9,6 +9,7 @@ namespace QuizCreator.DAL.Repositories
     using Entities;
     using Microsoft.Data.Sqlite;
     using System.Collections.ObjectModel;
+    using System.Windows;
 
     static class QuestionRepository
     {
@@ -57,13 +58,16 @@ namespace QuizCreator.DAL.Repositories
             bool status = false;
             using(SqliteConnection connection = DBConnection.Instance.Connection) 
             {
-                SqliteCommand command = new SqliteCommand($"{ADD_QUESTION} ({quizNumber},{question.ToInsert()})", connection);
+                SqliteCommand insertCommand = new SqliteCommand($"{ADD_QUESTION} ({quizNumber},{question.ToInsert()})", connection);
                 connection.Open();
-                var n = command.ExecuteScalar();
-                if (n != null)
+                insertCommand.ExecuteNonQuery();
+
+                SqliteCommand checkLastIndexCommand = new SqliteCommand("select last_insert_rowid()", connection);
+                var id = checkLastIndexCommand.ExecuteScalar();
+
+                if (id != null)
                 {
-                    status = true;
-                    question.Id = sbyte.Parse(n.ToString());
+                    question.Id = sbyte.Parse(id.ToString());
                 }
                 connection.Close();
             }
@@ -76,7 +80,7 @@ namespace QuizCreator.DAL.Repositories
             using (SqliteConnection connection = DBConnection.Instance.Connection)
             {
                 SqliteCommand command = new SqliteCommand(
-                    $"UPDATE `quiestion` SET `question`=\"{question.QuestionContent}\", `anwser_1`=\"{question.Anwser1}\", `anwser_2`=\"{question.Anwser2}\", `anwser_3`=\"{question.Anwser3}\", `anwser_4`=\"{question.Anwser4}\",`right_anwser`={question.Right_anwser}", connection);
+                    $"UPDATE `question` SET `question`=\"{question.QuestionContent}\", `anwser_1`=\"{question.Anwser1}\", `anwser_2`=\"{question.Anwser2}\", `anwser_3`=\"{question.Anwser3}\", `anwser_4`=\"{question.Anwser4}\",`right_anwser`={Question.ConvertTableToAnwsers(question.AnwserTable)} WHERE id={question.Id}", connection);
                 connection.Open();
                 var n = command.ExecuteNonQuery();
                 if ((int)n > 0)
@@ -88,13 +92,18 @@ namespace QuizCreator.DAL.Repositories
 
         public static bool DeleteQuestion(Question question)
         {
+            return DeleteQuestionWithId(question.Id);
+        }
+
+        public static bool DeleteQuestionWithId(sbyte? id)
+        {
             bool status = false;
             using (SqliteConnection connection = DBConnection.Instance.Connection)
             {
-                SqliteCommand command = new SqliteCommand($"{DELETE_QUESTION} {question.Id})", connection);
+                SqliteCommand command = new SqliteCommand($"{DELETE_QUESTION} {id}", connection);
                 connection.Open();
                 var n = command.ExecuteNonQuery();
-                if((int)n >0)
+                if ((int)n > 0)
                     status = true;
                 connection.Close();
             }

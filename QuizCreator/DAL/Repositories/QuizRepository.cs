@@ -64,7 +64,7 @@ namespace QuizCreator.DAL.Repositories
             {
                 SqliteCommand insertCommand = new SqliteCommand($"{ADD_QUIZ} (\"{quiz.Name}\");", connection);
                 connection.Open();
-                insertCommand.ExecuteScalar();
+                insertCommand.ExecuteNonQuery();
 
                 SqliteCommand checkLastIndexCommand = new SqliteCommand("select last_insert_rowid()", connection);
                 var id = checkLastIndexCommand.ExecuteScalar();

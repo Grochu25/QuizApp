@@ -10,6 +10,7 @@ namespace QuizCreator.Model
     using QuizCreator.DAL.Entities;
     using QuizCreator.DAL.Repositories;
     using System.Windows;
+    using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
     class Model
     {
@@ -61,10 +62,7 @@ namespace QuizCreator.Model
             }
         }
 
-        public Model()
-        {
-            
-        }
+        public Model(){}
 
         public void AddQuizWithName(string name)
         {
@@ -78,11 +76,52 @@ namespace QuizCreator.Model
                 Quizes.Add(quiz);
         }
 
+        public void ModifyCurrentQuizName(string name)
+        {
+            QuizRepository.UpdateQuiz(new Quiz(CurrentQuizId, name));
+        }
+
         public void RemoveQuiz(Quiz quiz) 
         {
             Quizes.Remove(quiz);
             QuizRepository.DeleteQuiz(quiz);
         }
 
+
+        public void AddQuestionToCurrentQuiz(Question question)
+        {
+            QuestionRepository.AddNewQuestion(question, CurrentQuizId);
+        }
+
+
+        public void ModifyQuestion(Question question)
+        {
+            QuestionRepository.UpdateQuestion(question);
+        }
+
+        public void SaveChangesInCurrentQuiz()
+        {
+            foreach (var question in Questions)
+            {
+                if (question.Id >= 0)
+                {
+                    ModifyQuestion(question);
+                }
+                else
+                {
+                    question.Id = null;
+                    if (!question.QuestionContent.Equals(""))
+                        AddQuestionToCurrentQuiz(question);
+                }
+            }
+        }
+
+        public void DeleteQuestionsWithId(List<sbyte> Ids)
+        {
+            foreach (var id in Ids)
+            {
+                QuestionRepository.DeleteQuestionWithId(id);
+            }
+        }
     }
 }

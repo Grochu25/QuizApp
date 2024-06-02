@@ -4,40 +4,109 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d">
+    <!--xmlns:vm="clr-namespace:QuizCreator.ViewModels"-->
+    <UserControl.Resources>
+        <Style TargetType="{x:Type Button}" x:Key="buttonStyle">
+            <Setter Property="Margin" Value="5 8 0 8"/>
+            <Setter Property="Padding" Value="6"/>
+        </Style>
 
+        <!--<vm:AnwserConverter x:Key="anwserConverter"/>-->
+    </UserControl.Resources>
+    
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="5*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Column="1">
+        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+            <Button Style="{StaticResource buttonStyle}" Command="{Binding ReturnToMenu}">
+                <Image Source="../img/Return.png"/>
+            </Button>
+            <Button Style="{StaticResource buttonStyle}" Command="{Binding SaveChanges}">
+                <Image Source="../img/Save.png"/>
+            </Button>
+        </StackPanel>
+
+        <Grid Grid.Row="0"  Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0" FontSize="18pt" Text="Nazwa Quizu: "></TextBlock>
-            <TextBox Grid.Column="1" Margin="0 0 15 10" FontSize="18pt" Text="{Binding QuizName}"/>
+            <TextBlock Grid.Column="1" FontSize="18pt" Text="Nazwa Quizu: "></TextBlock>
+            <TextBox Grid.Column="2" Margin="0 0 15 10" FontSize="18pt"  Text="{Binding QuizName}"/>
         </Grid>
 
-        <ScrollViewer Grid.Column="0" Grid.Row="1">
-            <ItemsControl ItemsSource="{Binding Questions}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
-                            <TextBlock Text="{Binding Id}"/>
-                            <TextBlock Text="{Binding QuestionContent}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
+
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="30pt"/>
+            </Grid.RowDefinitions>
+            <ScrollViewer Grid.Row="0">
+                <ItemsControl ItemsSource="{Binding Questions}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="23pt"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Button Margin="5 8 2 8" Command="{Binding DataContext.RemoveQuestion, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" CommandParameter="{Binding Id}">
+                                        <Image Source="../img/Remove.png"/>
+                                    </Button>
+                                    <RadioButton Grid.Column="1" VerticalContentAlignment="Center" Margin="4 0 0 0" Padding="12" Content="{Binding QuestionContent}" GroupName="pytania" Command="{Binding DataContext.SelectQuestion, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" CommandParameter="{Binding Id}"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+            <Button Grid.Row="1" Content="Dodaj pytanie" Command="{Binding AddNewQuestion}"/>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="1" DataContext="{Binding SelectedQuestion}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            
+            <TextBox IsEnabled="{Binding DataContext.ifQuestionSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" Text="{Binding QuestionContent}" Grid.Row="0" VerticalContentAlignment="Center" FontSize="18pt" TextWrapping="Wrap" HorizontalContentAlignment="Center"/>
+
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                
+                <TextBox IsEnabled="{Binding DataContext.ifQuestionSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" Text="{Binding Anwser1}" Grid.Row="0" Grid.Column="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                <!--<CheckBox IsEnabled="{Binding DataContext.ifQuestionSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" IsChecked="{Binding Right_anwser, Mode=TwoWay, Converter={StaticResource anwserConverter}, ConverterParameter=8}" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Width="20" Height="20"/>-->
+                <CheckBox IsEnabled="{Binding DataContext.ifQuestionSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" IsChecked="{Binding AnwserTable[0]}" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Width="20" Height="20"/>
+                <TextBox IsEnabled="{Binding DataContext.ifQuestionSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" Text="{Binding Anwser2}" Grid.Row="0" Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                <CheckBox IsEnabled="{Binding DataContext.ifQuestionSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" IsChecked="{Binding AnwserTable[1]}" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="0" Grid.Column="1" Width="20" Height="20"/>
+                <TextBox IsEnabled="{Binding DataContext.ifQuestionSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" Text="{Binding Anwser3}" Grid.Row="1" Grid.Column="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                <CheckBox IsEnabled="{Binding DataContext.ifQuestionSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" IsChecked="{Binding AnwserTable[2]}" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Grid.Column="0" Width="20" Height="20"/>
+                <TextBox IsEnabled="{Binding DataContext.ifQuestionSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" Text="{Binding Anwser4}" Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                <CheckBox IsEnabled="{Binding DataContext.ifQuestionSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" IsChecked="{Binding AnwserTable[3]}" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1" Width="20" Height="20"/>
+            </Grid>
+
+        </Grid>
         
     </Grid>
 </UserControl>

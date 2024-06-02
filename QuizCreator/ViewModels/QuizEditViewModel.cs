@@ -8,15 +8,19 @@ namespace QuizCreator.ViewModels
 {
     using Model;
     using QuizCreator.DAL.Entities;
+    using QuizCreator.ViewModels.BaseViewModelClasses;
     using QuizCreator.ViewModels.Navigation;
     using System.Collections.ObjectModel;
     using System.Windows;
+    using System.Windows.Input;
 
     class QuizEditViewModel : BaseViewModelClasses.ViewModel
     {
         public string QuizName { get; set; }
         private Model _model = new Model();
         private ViewModelChanger _viewModelChanger;
+        private sbyte helpIndex = -1;
+        private List<sbyte> _removedIds = new List<sbyte>();
 
         private ObservableCollection<Question> _questions = new ObservableCollection<Question>();
         public ObservableCollection<Question> Questions
@@ -25,6 +29,8 @@ namespace QuizCreator.ViewModels
             set { _questions = value; }
         }
 
+        public Question? SelectedQuestion { get; set; }
+
         public QuizEditViewModel(ViewModelChanger viewModelChanger)
         {
             _viewModelChanger = viewModelChanger;
@@ -32,5 +38,100 @@ namespace QuizCreator.ViewModels
             _questions = _model.Questions;
         }
 
+        public bool ifQuestionSelected
+        {
+            get => SelectedQuestion != null; 
+        }
+
+        private ICommand? _selectQuestion = null;
+
+        public ICommand SelectQuestion
+        {
+            get
+            {
+                if (_selectQuestion == null)
+                    _selectQuestion = new RelayCommand(
+                        arg => { SelectedQuestion = _questionWithId((sbyte)arg); onPropertyChanged(nameof(ifQuestionSelected), nameof(SelectedQuestion)); },
+                        arg => true);
+                return _selectQuestion;
+            }
+        }
+
+        private Question? _questionWithId(sbyte id)
+        {
+            foreach (var question in _questions)
+            {
+                if (question.Id == id)
+                    return question;
+            }
+            return null;
+        }
+
+        private ICommand? _returnToMenu = null;
+
+        public ICommand ReturnToMenu
+        {
+            get
+            {
+                if (_returnToMenu == null)
+                    _returnToMenu = new RelayCommand(
+                        arg => { 
+                            var result = MessageBox.Show("Wszelkie niezapisane zmiany zostaną utracone.","Czy na pewno chcesz wrócić do Menu?", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                            if(result == MessageBoxResult.OK)
+                                _viewModelChanger.CurrentViewModel = new QuizListViewModel(_viewModelChanger); },
+                        arg => true);
+                return _returnToMenu;
+            }
+        }
+
+        private ICommand? _addNewQuestion = null;
+        public ICommand AddNewQuestion
+        {
+            get
+            {
+                if (_addNewQuestion == null)
+                    _addNewQuestion = new RelayCommand(
+                        arg => { Questions.Add(new Question(helpIndex--, Model.CurrentQuizId,"","","","","",0)); },
+                        arg => true);
+                return _addNewQuestion;
+            }
+        }
+
+        private ICommand? _removeQuestion = null;
+        public ICommand RemoveQuestion
+        {
+            get
+            {
+                if (_removeQuestion == null)
+                    _removeQuestion = new RelayCommand(
+                        arg => {
+                            Questions.Remove(_questionWithId((sbyte)arg));
+                            _removedIds.Add((sbyte)arg);
+                        },
+                        arg => true);
+                return _removeQuestion;
+            }
+        }
+
+        private ICommand? _saveChanges = null;
+        public ICommand SaveChanges
+        {
+            get
+            {
+                if (_saveChanges == null)
+                    _saveChanges = new RelayCommand(
+                        arg => {
+                            
+                            _model.SaveChangesInCurrentQuiz();
+
+                            _model.DeleteQuestionsWithId(_removedIds);
+
+                            _model.ModifyCurrentQuizName(QuizName);
+                            MessageBox.Show("Zapisano modyfikacje", "Informacja", MessageBoxButton.OK, MessageBoxImage.Information);
+                        },
+                        arg => true);
+                return _saveChanges;
+            }
+        }
     }
 }
