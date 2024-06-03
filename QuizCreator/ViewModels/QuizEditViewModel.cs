@@ -21,6 +21,7 @@ namespace QuizCreator.ViewModels
         private ViewModelChanger _viewModelChanger;
         private sbyte helpIndex = -1;
         private List<sbyte> _removedIds = new List<sbyte>();
+        private bool _changesMade = false;
 
         private ObservableCollection<Question> _questions = new ObservableCollection<Question>();
         public ObservableCollection<Question> Questions
@@ -51,7 +52,10 @@ namespace QuizCreator.ViewModels
             {
                 if (_selectQuestion == null)
                     _selectQuestion = new RelayCommand(
-                        arg => { SelectedQuestion = _questionWithId((sbyte)arg); onPropertyChanged(nameof(ifQuestionSelected), nameof(SelectedQuestion)); },
+                        arg => { 
+                            SelectedQuestion = _questionWithId((sbyte)arg); onPropertyChanged(nameof(ifQuestionSelected), nameof(SelectedQuestion));
+                            _changesMade = true;
+                        },
                         arg => true);
                 return _selectQuestion;
             }
@@ -76,8 +80,8 @@ namespace QuizCreator.ViewModels
                 if (_returnToMenu == null)
                     _returnToMenu = new RelayCommand(
                         arg => { 
-                            var result = MessageBox.Show("Wszelkie niezapisane zmiany zostaną utracone.","Czy na pewno chcesz wrócić do Menu?", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-                            if(result == MessageBoxResult.OK)
+                            var result = (!_changesMade) ? MessageBoxResult.OK : MessageBox.Show("Wszelkie niezapisane zmiany zostaną utracone.","Czy na pewno chcesz wrócić do Menu?", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                            if(result == MessageBoxResult.OK )
                                 _viewModelChanger.CurrentViewModel = new QuizListViewModel(_viewModelChanger); },
                         arg => true);
                 return _returnToMenu;
@@ -91,7 +95,10 @@ namespace QuizCreator.ViewModels
             {
                 if (_addNewQuestion == null)
                     _addNewQuestion = new RelayCommand(
-                        arg => { Questions.Add(new Question(helpIndex--, Model.CurrentQuizId,"","","","","",0)); },
+                        arg => { 
+                            Questions.Add(new Question(helpIndex--, Model.CurrentQuizId,"","","","","",0));
+                            _changesMade = true;
+                        },
                         arg => true);
                 return _addNewQuestion;
             }
@@ -107,6 +114,7 @@ namespace QuizCreator.ViewModels
                         arg => {
                             Questions.Remove(_questionWithId((sbyte)arg));
                             _removedIds.Add((sbyte)arg);
+                            _changesMade = true;
                         },
                         arg => true);
                 return _removeQuestion;
@@ -128,6 +136,7 @@ namespace QuizCreator.ViewModels
 
                             _model.ModifyCurrentQuizName(QuizName);
                             MessageBox.Show("Zapisano modyfikacje", "Informacja", MessageBoxButton.OK, MessageBoxImage.Information);
+                            _changesMade = false;
                         },
                         arg => true);
                 return _saveChanges;
