@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace QuizCreator.DAL.Repositories
+﻿namespace QuizCreator.DAL.Repositories
 {
     using Entities;
     using Microsoft.Data.Sqlite;
-    using System.Collections.ObjectModel;
-    using System.Windows;
 
     static class QuestionRepository
     {

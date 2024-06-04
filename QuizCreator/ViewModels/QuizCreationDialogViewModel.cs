@@ -1,11 +1,4 @@
-﻿using QuizCreator.Views;
-using QuizCreator.ViewModels.BaseViewModelClasses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using QuizCreator.ViewModels.BaseViewModelClasses;
 using System.Windows.Input;
 
 namespace QuizCreator.ViewModels

@@ -1,49 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 
 namespace QuizCreator.Model
 {
     using QuizCreator.DAL.Entities;
     using QuizCreator.DAL.Repositories;
-    using System.Windows;
-    using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
     class Model
     {
-        private static sbyte _currentQuizId = -1;
-        public static sbyte CurrentQuizId {
-            get
-            {
-                return _currentQuizId;
-            }
-
-            set
-            {
-                _currentQuizId = value;
-            } 
-        }
+        public static sbyte CurrentQuizId { get; set; } = -1;
 
         public static Quiz CurrentQuiz()
         {
-            return QuizRepository.GetQuizWithId(_currentQuizId);
+            return QuizRepository.GetQuizWithId(CurrentQuizId);
         }
 
-        private ObservableCollection<Quiz> _quiz = new ObservableCollection<Quiz>();
+        private ObservableCollection<Quiz> _quizes = new ObservableCollection<Quiz>();
         public ObservableCollection<Quiz> Quizes
         {
             get
             {
-                if(_quiz.Count == 0)
+                if(_quizes.Count == 0)
                 {
                     var quizes = QuizRepository.GetAllQuizzes();
                     foreach (var quiz in quizes)
-                        _quiz.Add(quiz);
+                        _quizes.Add(quiz);
                 }
-                return _quiz;
+                return _quizes;
             }
         }
 
@@ -52,9 +34,9 @@ namespace QuizCreator.Model
         { 
             get
             {
-                if(_questions.Count == 0 && _currentQuizId >= 0)
+                if(_questions.Count == 0 && CurrentQuizId >= 0)
                 {
-                    var questions = QuestionRepository.GetAllQuestionsFromQuiz(_currentQuizId);
+                    var questions = QuestionRepository.GetAllQuestionsFromQuiz(CurrentQuizId);
                     foreach (var question in questions)
                         _questions.Add(question);
                 }
@@ -62,7 +44,25 @@ namespace QuizCreator.Model
             }
         }
 
-        public Model(){}
+        public Question? QuestionWithId(sbyte id)
+        {
+            foreach (var question in _questions)
+            {
+                if (question.Id == id)
+                    return question;
+            }
+            return null;
+        }
+
+        public Quiz? QuizWithId(sbyte id)
+        {
+            foreach (var quiz in _quizes)
+            {
+                if (quiz.Id == id)
+                    return quiz;
+            }
+            return null;
+        }
 
         public void AddQuizWithName(string name)
         {
@@ -87,6 +87,10 @@ namespace QuizCreator.Model
             QuizRepository.DeleteQuiz(quiz);
         }
 
+        public void RemoveQuizById(sbyte id)
+        {
+            RemoveQuiz(QuizWithId(id));
+        }
 
         public void AddQuestionToCurrentQuiz(Question question)
         {
@@ -122,6 +126,11 @@ namespace QuizCreator.Model
             {
                 QuestionRepository.DeleteQuestionWithId(id);
             }
+        }
+
+        public void RemoveQuestionById(sbyte id)
+        {
+            _questions.Remove(QuestionWithId(id));
         }
     }
 }

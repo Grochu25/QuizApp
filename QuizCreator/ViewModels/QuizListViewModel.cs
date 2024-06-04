@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace QuizCreator.ViewModels
+﻿namespace QuizCreator.ViewModels
 {
     using QuizCreator.DAL.Entities;
     using QuizCreator.Model;
-    using QuizCreator.Views;
     using QuizCreator.ViewModels.BaseViewModelClasses;
     using QuizCreator.ViewModels.Navigation;
     using System.Collections.ObjectModel;
@@ -65,24 +58,13 @@ namespace QuizCreator.ViewModels
                             var result = MessageBox.Show("Czy na pewno usunąć quiz?", "Jesteś pewien?", MessageBoxButton.YesNo, MessageBoxImage.Question);
                             if (result == MessageBoxResult.Yes)
                             {
-                                Quiz quiz = _quizWithId((sbyte)arg);
-                                _model.RemoveQuiz(quiz);
+                                _model.RemoveQuizById((sbyte)arg);
                             }
                         },
                         arg => true
                         );
                 return _deleteQuiz;
             }
-        }
-
-        private Quiz? _quizWithId(sbyte id)
-        {
-            for (int i = 0; i < Quizes.Count(); i++)
-            {
-                if (Quizes.ElementAt(i).Id == id)
-                    return Quizes.ElementAt(i);
-            }
-            return null;
         }
 
         private ICommand? _editQuiz = null;

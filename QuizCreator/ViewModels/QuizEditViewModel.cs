@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace QuizCreator.ViewModels
+﻿namespace QuizCreator.ViewModels
 {
     using Model;
     using QuizCreator.DAL.Entities;
@@ -53,22 +47,12 @@ namespace QuizCreator.ViewModels
                 if (_selectQuestion == null)
                     _selectQuestion = new RelayCommand(
                         arg => { 
-                            SelectedQuestion = _questionWithId((sbyte)arg); onPropertyChanged(nameof(ifQuestionSelected), nameof(SelectedQuestion));
+                            SelectedQuestion = _model.QuestionWithId((sbyte)arg); onPropertyChanged(nameof(ifQuestionSelected), nameof(SelectedQuestion));
                             _changesMade = true;
                         },
                         arg => true);
                 return _selectQuestion;
             }
-        }
-
-        private Question? _questionWithId(sbyte id)
-        {
-            foreach (var question in _questions)
-            {
-                if (question.Id == id)
-                    return question;
-            }
-            return null;
         }
 
         private ICommand? _returnToMenu = null;
@@ -112,7 +96,7 @@ namespace QuizCreator.ViewModels
                 if (_removeQuestion == null)
                     _removeQuestion = new RelayCommand(
                         arg => {
-                            Questions.Remove(_questionWithId((sbyte)arg));
+                            _model.RemoveQuestionById((sbyte)arg);
                             _removedIds.Add((sbyte)arg);
                             _changesMade = true;
                         },

@@ -1,7 +1,5 @@
 ﻿using QuizCreator.ViewModels;
 using QuizCreator.ViewModels.Navigation;
-using System.Configuration;
-using System.Data;
 using System.Windows;
 
 namespace QuizCreator
@@ -9,7 +7,6 @@ namespace QuizCreator
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    /// duhfdufjj
     public partial class App : Application
     {
         protected override void OnStartup(StartupEventArgs e)
