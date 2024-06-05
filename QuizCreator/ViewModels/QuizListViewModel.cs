@@ -28,60 +28,60 @@
 
         public string CreatedQuizName { get; set; } = "";
 
-        private ICommand? _createQuiz = null;
-        public ICommand CreateQuiz
-        {
-            get
-            {
-                if (_createQuiz == null)
-                    _createQuiz = new RelayCommand(
-                        arg =>
-                        {
-                            _model.AddQuizWithName(CreatedQuizName);
-                            CreatedQuizName = "";
-                        },
-                        arg => CreatedQuizName.Length > 0
-                        );
-                return _createQuiz;
-            }
+        //private ICommand? _createQuiz = null;
+        //public ICommand CreateQuiz
+        //{
+        //    get
+        //    {
+        //        if (_createQuiz == null)
+        //            _createQuiz = new RelayCommand(
+        //                arg =>
+        //                {
+        //                    _model.AddQuizWithName(CreatedQuizName);
+        //                    CreatedQuizName = "";
+        //                },
+        //                arg => CreatedQuizName.Length > 0
+        //                );
+        //        return _createQuiz;
+        //    }
 
-        }
+        //}
 
-        private ICommand? _deleteQuiz = null;
-        public ICommand DeleteQuiz
-        {
-            get
-            {
-                if (_deleteQuiz == null)
-                    _deleteQuiz = new RelayCommand(
-                        arg => {
-                            var result = MessageBox.Show("Czy na pewno usunąć quiz?", "Jesteś pewien?", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                            if (result == MessageBoxResult.Yes)
-                            {
-                                _model.RemoveQuizById((sbyte)arg);
-                            }
-                        },
-                        arg => true
-                        );
-                return _deleteQuiz;
-            }
-        }
+        //private ICommand? _deleteQuiz = null;
+        //public ICommand DeleteQuiz
+        //{
+        //    get
+        //    {
+        //        if (_deleteQuiz == null)
+        //            _deleteQuiz = new RelayCommand(
+        //                arg => {
+        //                    var result = MessageBox.Show("Czy na pewno usunąć quiz?", "Jesteś pewien?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+        //                    if (result == MessageBoxResult.Yes)
+        //                    {
+        //                        _model.RemoveQuizById((sbyte)arg);
+        //                    }
+        //                },
+        //                arg => true
+        //                );
+        //        return _deleteQuiz;
+        //    }
+        //}
 
-        private ICommand? _editQuiz = null;
-        public ICommand EditQuiz
-        {
-            get
-            {
-                if (_editQuiz == null)
-                    _editQuiz = new RelayCommand(
-                        arg => {
-                            Model.CurrentQuizId = (sbyte)arg;
-                            _viewModelChanger.CurrentViewModel = new QuizEditViewModel(_viewModelChanger);
-                        },
-                        arg => true
-                        );
-                return _editQuiz;
-            }
-        }
+        //private ICommand? _editQuiz = null;
+        //public ICommand EditQuiz
+        //{
+        //    get
+        //    {
+        //        if (_editQuiz == null)
+        //            _editQuiz = new RelayCommand(
+        //                arg => {
+        //                    Model.CurrentQuizId = (sbyte)arg;
+        //                    _viewModelChanger.CurrentViewModel = new QuizAnwserViewModel(_viewModelChanger);
+        //                },
+        //                arg => true
+        //                );
+        //        return _editQuiz;
+        //    }
+        //}
     }
 }

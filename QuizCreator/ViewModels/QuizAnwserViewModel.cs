@@ -8,7 +8,7 @@
     using System.Windows;
     using System.Windows.Input;
 
-    class QuizEditViewModel : BaseViewModelClasses.ViewModel
+    class QuizAnwserViewModel : BaseViewModelClasses.ViewModel
     {
         public string QuizName { get; set; }
         private Model _model = new Model();
@@ -26,7 +26,7 @@
 
         public Question? SelectedQuestion { get; set; }
 
-        public QuizEditViewModel(ViewModelChanger viewModelChanger)
+        public QuizAnwserViewModel(ViewModelChanger viewModelChanger)
         {
             _viewModelChanger = viewModelChanger;
             QuizName = Model.CurrentQuiz().Name;
