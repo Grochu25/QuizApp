@@ -23,16 +23,12 @@
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="5*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="2*"/>
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Grid.Column="0" FontSize="24" Text="{Binding Name}"></TextBlock>
-                                <Button Grid.Column="1" Margin="0 0 2 0" Command="{Binding DataContext.EditQuiz, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" CommandParameter="{Binding Id}">
-                                    <Image Source="../img/Edit.png"/>
-                                </Button>
-                                <Button Grid.Column="2" Margin="2 0 0 0" Command="{Binding DataContext.DeleteQuiz, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" CommandParameter="{Binding Id}">
-                                    <Image Source="../img/Remove.png"/>
+                                <Button Grid.Column="1" Margin="2 2 0 0" Command="{Binding DataContext.EditQuiz, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" CommandParameter="{Binding Id}">
+                                    <!--<Image Source="../img/Edit.png"/>--> Rozwiąż
                                 </Button>
 
                             </Grid>
@@ -48,10 +44,6 @@
 
             </ItemsControl>
         </ScrollViewer>
-
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Margin="0 12 0 12" Click="CreateQuiz">DODAJ NOWY QUIZ</Button>
-        </StackPanel>
 
     </Grid>
 </UserControl>
