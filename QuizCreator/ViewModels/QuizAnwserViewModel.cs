@@ -149,6 +149,7 @@
                             }
 
                             MessageBox.Show($"Your score: {score}/{Questions.Count}\nTime: {QuizTimer}", "Twoje wyniki");
+                            _isStarted = false;
                         },
                         arg => _isStarted
                         );
