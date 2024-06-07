@@ -44,7 +44,6 @@
 
         }
 
-
         public bool ifQuestionSelected
         {
             get => SelectedQuestion != null; 
@@ -110,7 +109,7 @@
                             _timeElapsed = TimeSpan.Zero;
                             _timer.Change(0, 1000);
                         },
-                        arg => true
+                        arg => !_isStarted
                     );
                 return _start;
             }

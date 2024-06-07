@@ -5,9 +5,9 @@ namespace QuizCreator.Views
     /// <summary>
     /// Logika interakcji dla klasy QuizEditWindow.xaml
     /// </summary>
-    public partial class QuizAnwserView : UserControl
+    public partial class QuizEditView : UserControl
     {
-        public QuizAnwserView()
+        public QuizEditView()
         {
             InitializeComponent();
         }

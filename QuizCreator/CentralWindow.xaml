@@ -18,8 +18,16 @@
                 <views:QuizListView/>
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vm:QuizAnwserViewModel}">
+            <DataTemplate DataType="{x:Type vm:QuizListEditViewModel}">
+                <views:QuizListEditView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:QuizEditViewModel}">
                 <views:QuizEditView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:QuizAnwserViewModel}">
+                <views:QuizAnwserView/>
             </DataTemplate>
 
         </ContentControl.Resources>

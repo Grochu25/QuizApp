@@ -42,7 +42,7 @@
                                 return;
                             }
 
-                            Model.CurrentQuizId = (sbyte) arg;
+                            Model.CurrentQuizId = (sbyte)arg;
 
                             // Sprawdzenie null dla _viewModelChanger
                             if (_viewModelChanger == null)
@@ -59,5 +59,20 @@
             }
         }
 
+        private ICommand? _editMode = null;
+        public ICommand EditMode
+        {
+            get
+            {
+                if (_editMode == null)
+                {
+                    _editMode = new RelayCommand(
+                        arg => { _viewModelChanger.CurrentViewModel = new QuizListEditViewModel(_viewModelChanger); },
+                        arg => true
+                        );
+                }
+                return _editMode;
+            }
+        }
     }
 }

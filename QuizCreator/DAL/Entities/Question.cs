@@ -44,6 +44,8 @@ namespace QuizCreator.DAL.Entities
 
         public Question()
         {
+            Right_anwser = 0;
+            AnwserTable = ConvertAnwsersToTable(Right_anwser);
             UserAnswers = new bool[4];
         }
 
@@ -58,6 +60,7 @@ namespace QuizCreator.DAL.Entities
             Anwser3 = reader["anwser_3"].ToString();
             Anwser4 = reader["anwser_4"].ToString();
             Right_anwser = sbyte.Parse(reader["right_anwser"].ToString());
+            AnwserTable = ConvertAnwsersToTable(Right_anwser);
             UserAnswers = new bool [4];
         }
 
@@ -71,6 +74,7 @@ namespace QuizCreator.DAL.Entities
             Anwser3 = anwser3;
             Anwser4 = anwser4;
             Right_anwser = right_anwser;
+            AnwserTable = ConvertAnwsersToTable(Right_anwser);
             UserAnswers = new bool[4];
         }
 
