@@ -18,7 +18,7 @@
                 <views:QuizListView/>
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vm:QuizEditViewModel}">
+            <DataTemplate DataType="{x:Type vm:QuizAnwserViewModel}">
                 <views:QuizEditView/>
             </DataTemplate>
 

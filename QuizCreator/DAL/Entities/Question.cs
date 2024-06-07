@@ -34,7 +34,18 @@ namespace QuizCreator.DAL.Entities
         public string Anwser4 { get; set; }
         public sbyte Right_anwser { get; set; }
         public bool[] AnwserTable { get; set; }
-        #endregion
+
+        private bool[] _userAnswers;
+        public bool[] UserAnswers
+        {
+            get { return _userAnswers ??= new bool[4]; }
+            set { _userAnswers = value; }
+        }
+
+        public Question()
+        {
+            UserAnswers = new bool[4];
+        }
 
         #region Constructors
         public Question(SqliteDataReader reader)
@@ -47,7 +58,7 @@ namespace QuizCreator.DAL.Entities
             Anwser3 = reader["anwser_3"].ToString();
             Anwser4 = reader["anwser_4"].ToString();
             Right_anwser = sbyte.Parse(reader["right_anwser"].ToString());
-            AnwserTable = ConvertAnwsersToTable(Right_anwser);
+            UserAnswers = new bool [4];
         }
 
         public Question(sbyte? id, sbyte? quizId, string questionContent, string anwser1, string anwser2, string anwser3, string anwser4, sbyte right_anwser)
@@ -60,7 +71,7 @@ namespace QuizCreator.DAL.Entities
             Anwser3 = anwser3;
             Anwser4 = anwser4;
             Right_anwser = right_anwser;
-            AnwserTable = ConvertAnwsersToTable(Right_anwser);
+            UserAnswers = new bool[4];
         }
 
         #endregion
@@ -83,5 +94,6 @@ namespace QuizCreator.DAL.Entities
             Question q = (Question) obj;
             return q.Id == this.Id;
         }
+        #endregion
     }
 }

@@ -13,13 +13,5 @@ namespace QuizCreator.Views
             InitializeComponent();
         }
 
-        public void CreateQuiz(object sender, RoutedEventArgs args)
-        {
-            var quizCreationDialog = new QuizCreationDialog()
-            {
-                DataContext = this.DataContext
-            };
-            quizCreationDialog.ShowDialog();
-        }
     }
 }

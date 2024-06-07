@@ -5,6 +5,7 @@
     using QuizCreator.ViewModels.BaseViewModelClasses;
     using QuizCreator.ViewModels.Navigation;
     using System.Collections.ObjectModel;
+    using System.Diagnostics;
     using System.Windows;
     using System.Windows.Input;
 
@@ -26,62 +27,37 @@
             set { _quizes = value; }
         }
 
-        public string CreatedQuizName { get; set; } = "";
+        private ICommand? _rozwiaz = null;
+        public ICommand Rozwiaz
+        {
+            get
+            {
+                if (_rozwiaz == null)
+                    _rozwiaz = new RelayCommand(
+                        arg =>
+                        {
+                            if (arg == null)
+                            {
+                                Debug.WriteLine("Argument arg jest null");
+                                return;
+                            }
 
-        //private ICommand? _createQuiz = null;
-        //public ICommand CreateQuiz
-        //{
-        //    get
-        //    {
-        //        if (_createQuiz == null)
-        //            _createQuiz = new RelayCommand(
-        //                arg =>
-        //                {
-        //                    _model.AddQuizWithName(CreatedQuizName);
-        //                    CreatedQuizName = "";
-        //                },
-        //                arg => CreatedQuizName.Length > 0
-        //                );
-        //        return _createQuiz;
-        //    }
+                            Model.CurrentQuizId = (sbyte) arg;
 
-        //}
+                            // Sprawdzenie null dla _viewModelChanger
+                            if (_viewModelChanger == null)
+                            {
+                                Debug.WriteLine("_viewModelChanger jest null");
+                                return;
+                            }
 
-        //private ICommand? _deleteQuiz = null;
-        //public ICommand DeleteQuiz
-        //{
-        //    get
-        //    {
-        //        if (_deleteQuiz == null)
-        //            _deleteQuiz = new RelayCommand(
-        //                arg => {
-        //                    var result = MessageBox.Show("Czy na pewno usunąć quiz?", "Jesteś pewien?", MessageBoxButton.YesNo, MessageBoxImage.Question);
-        //                    if (result == MessageBoxResult.Yes)
-        //                    {
-        //                        _model.RemoveQuizById((sbyte)arg);
-        //                    }
-        //                },
-        //                arg => true
-        //                );
-        //        return _deleteQuiz;
-        //    }
-        //}
+                            _viewModelChanger.CurrentViewModel = new QuizAnwserViewModel(_viewModelChanger);
+                        },
+                        arg => true
+                        );
+                return _rozwiaz;
+            }
+        }
 
-        //private ICommand? _editQuiz = null;
-        //public ICommand EditQuiz
-        //{
-        //    get
-        //    {
-        //        if (_editQuiz == null)
-        //            _editQuiz = new RelayCommand(
-        //                arg => {
-        //                    Model.CurrentQuizId = (sbyte)arg;
-        //                    _viewModelChanger.CurrentViewModel = new QuizAnwserViewModel(_viewModelChanger);
-        //                },
-        //                arg => true
-        //                );
-        //        return _editQuiz;
-        //    }
-        //}
     }
 }
