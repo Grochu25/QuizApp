@@ -46,7 +46,7 @@
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Margin="0 12 0 12" Command="{Binding EditMode}">
-                <Image Source="../img/Edit.png"/>
+                Tryb edycji
             </Button>
         </StackPanel>
 
