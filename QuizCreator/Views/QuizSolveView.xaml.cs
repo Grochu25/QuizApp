@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace QuizCreator.Views
 {
     /// <summary>
-    /// Logika interakcji dla klasy QuizListView.xaml
+    /// Logika interakcji dla klasy QuizSolveView.xaml
     /// </summary>
-    public partial class QuizListView : UserControl
+    public partial class QuizSolveView : UserControl
     {
-        public QuizListView()
+        public QuizSolveView()
         {
             InitializeComponent();
         }

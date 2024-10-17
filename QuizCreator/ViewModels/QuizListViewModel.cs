@@ -1,17 +1,16 @@
 ﻿namespace QuizCreator.ViewModels
 {
     using QuizCreator.DAL.Entities;
-    using QuizCreator.Model;
-    using QuizCreator.ViewModels.BaseViewModelClasses;
     using QuizCreator.ViewModels.Navigation;
     using System.Collections.ObjectModel;
-    using System.Windows;
+    using QuizCreator.Model;
+    using QuizCreator.ViewModels.BaseViewModelClasses;
     using System.Windows.Input;
 
     class QuizListViewModel : BaseViewModelClasses.ViewModel
     {
-        private Model _model = new Model();
         private ViewModelChanger _viewModelChanger;
+        private Model _model = new Model();
         private ObservableCollection<Quiz>? _quizes = new ObservableCollection<Quiz>();
 
         public QuizListViewModel(ViewModelChanger viewModelChanger)
@@ -26,61 +25,37 @@
             set { _quizes = value; }
         }
 
-        public string CreatedQuizName { get; set; } = "";
-
-        private ICommand? _createQuiz = null;
-        public ICommand CreateQuiz
+        private ICommand? _editMode = null;
+        public ICommand EditMode
         {
             get
             {
-                if (_createQuiz == null)
-                    _createQuiz = new RelayCommand(
-                        arg =>
-                        {
-                            _model.AddQuizWithName(CreatedQuizName);
-                            CreatedQuizName = "";
-                        },
-                        arg => CreatedQuizName.Length > 0
-                        );
-                return _createQuiz;
-            }
-
-        }
-
-        private ICommand? _deleteQuiz = null;
-        public ICommand DeleteQuiz
-        {
-            get
-            {
-                if (_deleteQuiz == null)
-                    _deleteQuiz = new RelayCommand(
+                if (_editMode == null)
+                    _editMode = new RelayCommand(
                         arg => {
-                            var result = MessageBox.Show("Czy na pewno usunąć quiz?", "Jesteś pewien?", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                            if (result == MessageBoxResult.Yes)
-                            {
-                                _model.RemoveQuizById((sbyte)arg);
-                            }
+                            _viewModelChanger.CurrentViewModel = new QuizEditListViewModel(_viewModelChanger);
                         },
                         arg => true
                         );
-                return _deleteQuiz;
+                return _editMode;
             }
         }
 
-        private ICommand? _editQuiz = null;
-        public ICommand EditQuiz
+        private ICommand? _takeQuiz = null;
+
+        public ICommand? TakeQuiz
         {
             get
             {
-                if (_editQuiz == null)
-                    _editQuiz = new RelayCommand(
+                if (_takeQuiz == null)
+                    _takeQuiz = new RelayCommand(
                         arg => {
                             Model.CurrentQuizId = (sbyte)arg;
-                            _viewModelChanger.CurrentViewModel = new QuizEditViewModel(_viewModelChanger);
+                            _viewModelChanger.CurrentViewModel = new QuizSolveViewModel(_viewModelChanger);
                         },
                         arg => true
                         );
-                return _editQuiz;
+                return _takeQuiz;
             }
         }
     }

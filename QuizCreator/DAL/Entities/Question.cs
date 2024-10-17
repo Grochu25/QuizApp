@@ -34,6 +34,7 @@ namespace QuizCreator.DAL.Entities
         public string Anwser4 { get; set; }
         public sbyte Right_anwser { get; set; }
         public bool[] AnwserTable { get; set; }
+        public bool[] UserAnwserTable { get; set; }
         #endregion
 
         #region Constructors
@@ -48,6 +49,7 @@ namespace QuizCreator.DAL.Entities
             Anwser4 = reader["anwser_4"].ToString();
             Right_anwser = sbyte.Parse(reader["right_anwser"].ToString());
             AnwserTable = ConvertAnwsersToTable(Right_anwser);
+            UserAnwserTable = new bool[4];
         }
 
         public Question(sbyte? id, sbyte? quizId, string questionContent, string anwser1, string anwser2, string anwser3, string anwser4, sbyte right_anwser)

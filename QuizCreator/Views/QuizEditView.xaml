@@ -66,7 +66,7 @@
                                     <Button Margin="5 8 2 8" Command="{Binding DataContext.RemoveQuestion, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" CommandParameter="{Binding Id}">
                                         <Image Source="../img/Remove.png"/>
                                     </Button>
-                                    <RadioButton Grid.Column="1" VerticalContentAlignment="Center" Margin="4 0 0 0" Padding="12" Content="{Binding QuestionContent}" GroupName="pytania" Command="{Binding DataContext.SelectQuestion, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" CommandParameter="{Binding Id}"/>
+                                    <RadioButton Grid.Column="1" VerticalContentAlignment="Center" Margin="4 0 0 0" Padding="12" Content="{Binding QuestionContent}" GroupName="questions" Command="{Binding DataContext.SelectQuestion, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" CommandParameter="{Binding Id}"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>

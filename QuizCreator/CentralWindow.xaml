@@ -14,12 +14,21 @@
 
     <ContentControl Content="{Binding CurrentViewModel}">
         <ContentControl.Resources>
+            
             <DataTemplate DataType="{x:Type vm:QuizListViewModel}">
                 <views:QuizListView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type vm:QuizEditListViewModel}">
+                <views:QuizEditListView/>
+            </DataTemplate>
+
             <DataTemplate DataType="{x:Type vm:QuizEditViewModel}">
                 <views:QuizEditView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:QuizSolveViewModel}">
+                <views:QuizSolveView/>
             </DataTemplate>
 
         </ContentControl.Resources>

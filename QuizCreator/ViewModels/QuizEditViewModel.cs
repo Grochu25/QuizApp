@@ -47,7 +47,8 @@
                 if (_selectQuestion == null)
                     _selectQuestion = new RelayCommand(
                         arg => { 
-                            SelectedQuestion = _model.QuestionWithId((sbyte)arg); onPropertyChanged(nameof(ifQuestionSelected), nameof(SelectedQuestion));
+                            SelectedQuestion = _model.QuestionWithId((sbyte)arg); 
+                            onPropertyChanged(nameof(ifQuestionSelected), nameof(SelectedQuestion));
                             _changesMade = true;
                         },
                         arg => true);
@@ -66,7 +67,7 @@
                         arg => { 
                             var result = (!_changesMade) ? MessageBoxResult.OK : MessageBox.Show("Wszelkie niezapisane zmiany zostaną utracone.","Czy na pewno chcesz wrócić do Menu?", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
                             if(result == MessageBoxResult.OK )
-                                _viewModelChanger.CurrentViewModel = new QuizListViewModel(_viewModelChanger); },
+                                _viewModelChanger.CurrentViewModel = new QuizEditListViewModel(_viewModelChanger); },
                         arg => true);
                 return _returnToMenu;
             }
